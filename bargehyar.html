@@ -1,0 +1,2828 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برگه‌یار هوشمند - آزمون یار</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/b-naznin.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      /* فونت BNaznin */
+      @font-face {
+        font-family: "BNaznin";
+        src: url("https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/BNaznin.eot");
+        src: url("https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/BNaznin.eot?#iefix")
+            format("embedded-opentype"),
+          url("https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/BNaznin.woff2")
+            format("woff2"),
+          url("https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/BNaznin.woff")
+            format("woff"),
+          url("https://cdn.jsdelivr.net/gh/aminpoint/b-naznin@1.0.0/BNaznin.ttf")
+            format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* تم اقیانوس (پیش‌فرض) */
+      :root {
+        --primary-color: #006994;
+        --primary-light: #0088b2;
+        --primary-dark: #005276;
+        --secondary-color: #00b4d8;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --water-color: #e0f7ff;
+        --water-light: #f0fbff;
+        --water-dark: #b3e5fc;
+        --text-color: #0a3d62;
+        --text-muted: #4a6b8a;
+        --border-color: #81d4fa;
+        --card-bg: rgba(255, 255, 255, 0.92);
+        --card-hover: rgba(255, 255, 255, 0.97);
+        --header-bg: rgba(224, 247, 255, 0.92);
+        --shadow: 0 8px 32px rgba(0, 105, 148, 0.18);
+        --shadow-light: 0 4px 16px rgba(0, 105, 148, 0.12);
+        --gradient-primary: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        --gradient-water: linear-gradient(
+          135deg,
+          var(--water-light),
+          var(--water-color)
+        );
+        --gradient-glass: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.75),
+          rgba(255, 255, 255, 0.45)
+        );
+        --border-radius: 12px;
+        --border-radius-sm: 8px;
+        --border-radius-lg: 20px;
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --font-family: "BNaznin", Vazirmatn, sans-serif;
+      }
+
+      /* تم ساحل (روشن) - بهبود یافته */
+      [data-theme="beach"] {
+        --primary-color: #ff7e5f;
+        --primary-light: #ff9e80;
+        --primary-dark: #e85c40;
+        --secondary-color: #feb47b;
+        --success-color: #2ecc71;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --water-color: #fff5e6;
+        --water-light: #fffaf0;
+        --water-dark: #ffe4c4;
+        --text-color: #5d4037;
+        --text-muted: #8d6e63;
+        --border-color: #ffccbc;
+        --card-bg: rgba(255, 255, 255, 0.92);
+        --card-hover: rgba(255, 255, 255, 0.97);
+        --header-bg: rgba(255, 245, 230, 0.92);
+        --shadow: 0 8px 32px rgba(255, 126, 95, 0.2);
+        --shadow-light: 0 4px 16px rgba(255, 126, 95, 0.15);
+        --gradient-primary: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        --gradient-water: linear-gradient(
+          135deg,
+          var(--water-light),
+          var(--water-color)
+        );
+        --gradient-glass: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.75),
+          rgba(255, 255, 255, 0.45)
+        );
+      }
+
+      /* تم کهکشان (تاریک) - بهبود یافته */
+      [data-theme="galaxy"] {
+        --primary-color: #8a2be2;
+        --primary-light: #9370db;
+        --primary-dark: #4b0082;
+        --secondary-color: #00bfff;
+        --success-color: #00fa9a;
+        --warning-color: #ffd700;
+        --danger-color: #ff4500;
+        --water-color: #0c0032;
+        --water-light: #190061;
+        --water-dark: #04000f;
+        --text-color: #e6e6fa;
+        --text-muted: #a9a9a9;
+        --border-color: #483d8b;
+        --card-bg: rgba(25, 0, 97, 0.88);
+        --card-hover: rgba(40, 0, 130, 0.92);
+        --header-bg: rgba(12, 0, 50, 0.92);
+        --shadow: 0 8px 32px rgba(138, 43, 226, 0.25);
+        --shadow-light: 0 4px 16px rgba(138, 43, 226, 0.2);
+        --gradient-primary: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        --gradient-water: linear-gradient(
+          135deg,
+          var(--water-light),
+          var(--water-color)
+        );
+        --gradient-glass: linear-gradient(
+          135deg,
+          rgba(25, 0, 97, 0.75),
+          rgba(25, 0, 97, 0.45)
+        );
+      }
+
+      /* تم معدن زغال سنگ (تاریک) - بهبود یافته */
+      [data-theme="coal-mine"] {
+        --primary-color: #4ecdc4;
+        --primary-light: #68d8d6;
+        --primary-dark: #2a9d8f;
+        --secondary-color: #f9c74f;
+        --success-color: #90be6d;
+        --warning-color: #f8961e;
+        --danger-color: #f94144;
+        --water-color: #1a1a1d;
+        --water-light: #2d2d30;
+        --water-dark: #0d0d0d;
+        --text-color: #edf2f4;
+        --text-muted: #8d99ae;
+        --border-color: #4a4e69;
+        --card-bg: rgba(45, 45, 48, 0.88);
+        --card-hover: rgba(55, 55, 58, 0.92);
+        --header-bg: rgba(26, 26, 29, 0.92);
+        --shadow: 0 8px 32px rgba(78, 205, 196, 0.25);
+        --shadow-light: 0 4px 16px rgba(78, 205, 196, 0.2);
+        --gradient-primary: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        --gradient-water: linear-gradient(
+          135deg,
+          var(--water-light),
+          var(--water-color)
+        );
+        --gradient-glass: linear-gradient(
+          135deg,
+          rgba(45, 45, 48, 0.75),
+          rgba(45, 45, 48, 0.45)
+        );
+      }
+
+      /* ریست استایل‌ها */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-family);
+        background: var(--gradient-water);
+        color: var(--text-color);
+        line-height: 1.6;
+        transition: var(--transition-slow);
+        min-height: 100vh;
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+        backdrop-filter: blur(10px);
+        position: relative;
+      }
+
+      /* افکت‌های پس‌زمینه */
+      .background-effects {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        opacity: 0.1;
+        animation: float 15s infinite ease-in-out;
+      }
+
+      .bubble:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+        animation-duration: 20s;
+      }
+
+      .bubble:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        top: 20%;
+        right: 15%;
+        animation-delay: 2s;
+        animation-duration: 18s;
+      }
+
+      .bubble:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 4s;
+        animation-duration: 22s;
+      }
+
+      .bubble:nth-child(4) {
+        width: 100px;
+        height: 100px;
+        bottom: 20%;
+        right: 25%;
+        animation-delay: 6s;
+        animation-duration: 16s;
+      }
+
+      .bubble:nth-child(5) {
+        width: 70px;
+        height: 70px;
+        top: 50%;
+        left: 50%;
+        animation-delay: 8s;
+        animation-duration: 19s;
+      }
+
+      /* کانتینر اصلی */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* هدر - بهبود یافته */
+      .header {
+        background: var(--header-bg);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 30px;
+        box-shadow: var(--shadow-light);
+        width: 100%;
+        padding: 0 20px;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo i {
+        font-size: 2.2rem;
+        color: var(--primary-color);
+        transition: var(--transition);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .logo:hover i {
+        transform: rotate(-15deg);
+      }
+
+      /* کنترل‌های هدر */
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .theme-selector {
+        display: flex;
+        gap: 8px;
+        background: var(--gradient-glass);
+        padding: 8px;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-light);
+      }
+
+      .theme-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .theme-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-primary);
+        opacity: 0;
+        transition: var(--transition);
+        border-radius: 50%;
+      }
+
+      .theme-btn.active,
+      .theme-btn:hover {
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-light);
+      }
+
+      .theme-btn.active::before,
+      .theme-btn:hover::before {
+        opacity: 1;
+      }
+
+      .theme-btn i {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* محتوای اصلی */
+      .main-content {
+        flex: 1;
+        padding: 20px 0;
+      }
+
+      /* صفحه */
+      .page {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition-slow);
+      }
+
+      .page.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        animation: fadeInUp 0.6s ease;
+      }
+
+      /* صفحه آزمون هوشمند (برگه‌یار) */
+      .exam-container {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        padding: 40px;
+        box-shadow: var(--shadow);
+        max-width: 800px;
+        margin: 0 auto;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 0.8s ease;
+      }
+
+      .exam-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient-primary);
+        z-index: 1;
+      }
+
+      .exam-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .exam-header h2 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        font-size: 2.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .exam-header p {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+      }
+
+      .exam-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        color: var(--text-color);
+        font-size: 1.1rem;
+      }
+
+      .form-group label i {
+        color: var(--primary-color);
+        width: 20px;
+        font-size: 1.2rem;
+      }
+
+      .form-group textarea {
+        padding: 15px 20px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        background: var(--water-light);
+        color: var(--text-color);
+        font-family: var(--font-family);
+        transition: var(--transition);
+        font-size: 1.1rem;
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(27, 154, 170, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* دکمه‌ها */
+      .form-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: var(--border-radius);
+        font-family: var(--font-family);
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        font-size: 1.1rem;
+      }
+
+      .btn-primary {
+        background: var(--gradient-primary);
+        color: white;
+        box-shadow: var(--shadow-light);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      .btn-primary:active {
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-color);
+        border: 2px solid var(--border-color);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(52, 152, 219, 0.1);
+        border-color: var(--primary-color);
+        transform: translateY(-3px);
+      }
+
+      /* استایل‌های کارنامه */
+      .report-container {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow);
+        max-width: 1200px;
+        margin: 0 auto;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .report-header {
+        background: var(--gradient-primary);
+        padding: 30px;
+        color: white;
+      }
+
+      .report-header-content h2 {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 2rem;
+      }
+
+      .student-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        direction: rtl;
+      }
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .info-item .label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin-bottom: 5px;
+      }
+
+      .info-item .value {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        padding: 30px;
+      }
+
+      .stat-card {
+        padding: 25px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        box-shadow: var(--shadow-light);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+      }
+
+      .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .stat-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: var(--transition);
+      }
+
+      .stat-card:hover::before {
+        transform: translateX(100%);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+      }
+
+      .stat-card.correct {
+        background: linear-gradient(135deg, var(--success-color), #27ae60);
+      }
+
+      .stat-card.wrong {
+        background: linear-gradient(135deg, var(--danger-color), #c62828);
+      }
+
+      .stat-card.empty {
+        background: linear-gradient(135deg, var(--warning-color), #ef6c00);
+      }
+
+      .stat-card.score {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+      }
+
+      .stat-card.potential {
+        background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+      }
+
+      .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 15px;
+      }
+
+      .stat-card .number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .stat-card .label {
+        font-size: 1.1rem;
+      }
+
+      .report-section {
+        padding: 0 30px 30px;
+      }
+
+      .report-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow-light);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .comparison-table th {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      .comparison-table td {
+        padding: 12px 15px;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .comparison-table tr:nth-child(even) {
+        background-color: rgba(27, 154, 170, 0.1);
+      }
+
+      .comparison-table tr:hover {
+        background-color: rgba(27, 154, 170, 0.2);
+      }
+
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+        direction: ltr;
+      }
+
+      .chart-container {
+        background: var(--gradient-glass);
+        padding: 25px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        transition: var(--transition);
+        border: 1px solid var(--border-color);
+      }
+
+      .chart-container:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .chart-container:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      .chart-container:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+      }
+
+      .chart-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+      }
+
+      /* تحلیل سوال به سوال - طراحی جدید */
+      .questions-analysis {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .question-filter {
+        background: var(--gradient-glass);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-color);
+        position: sticky;
+        top: 100px;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 10;
+      }
+
+      .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .filter-btn {
+        padding: 8px 15px;
+        border: 1px solid var(--border-color);
+        background: var(--water-light);
+        border-radius: var(--border-radius-sm);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .filter-btn.active,
+      .filter-btn:hover {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .questions-visualization {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 15px;
+        direction: ltr; /* چیدمان از چپ به راست */
+      }
+
+      .question-box {
+        padding: 12px;
+        border-radius: var(--border-radius-sm);
+        text-align: center;
+        box-shadow: var(--shadow-light);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+
+      .question-box:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: var(--shadow);
+        z-index: 10;
+      }
+
+      .question-box.correct {
+        background: rgba(76, 175, 80, 0.2);
+        border: 1px solid var(--success-color);
+      }
+
+      .question-box.wrong {
+        background: rgba(244, 67, 54, 0.2);
+        border: 1px solid var(--danger-color);
+      }
+
+      .question-box.empty {
+        background: rgba(255, 152, 0, 0.2);
+        border: 1px solid var(--warning-color);
+      }
+
+      .question-number {
+        font-weight: bold;
+        color: var(--text-color);
+        font-size: 0.9rem;
+      }
+
+      .question-answer {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .question-key {
+        font-size: 1rem;
+        color: var(--text-muted);
+        opacity: 0.8;
+      }
+
+      .status-icon {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-size: 0.9rem;
+      }
+
+      .question-details {
+        background: var(--gradient-glass);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-color);
+      }
+
+      .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .detail-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .detail-label {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      .detail-value {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      /* پیش‌نمایش کارنامه */
+      .report-preview {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-slow);
+      }
+
+      .report-preview.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .preview-content {
+        background: white;
+        border-radius: var(--border-radius);
+        width: 90%;
+        max-width: 1000px;
+        max-height: 90vh;
+        overflow: auto;
+        padding: 20px;
+        position: relative;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+
+      .report-preview.active .preview-content {
+        transform: scale(1);
+      }
+
+      .close-preview {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: var(--danger-color);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: var(--transition);
+      }
+
+      .close-preview:hover {
+        transform: rotate(90deg);
+      }
+
+      /* راهنمای استفاده */
+      .guide-container {
+        display: none; /* مخفی کردن راهنمای پایین صفحه */
+      }
+
+      /* نوار پیشرفت */
+      .progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: transparent;
+        z-index: 1001;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: var(--gradient-primary);
+        width: 0%;
+        transition: width 0.4s ease;
+      }
+
+      /* انیمیشن‌های جدید */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInScale {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(10deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      /* استایل‌های جدید برای راهنمای بالای فرم */
+      .form-guide {
+        background: var(--gradient-glass);
+        border-radius: var(--border-radius);
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+      }
+
+      .form-guide-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      .form-guide-header h3 {
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .form-guide-content {
+        margin-top: 15px;
+        display: none;
+        animation: fadeIn 0.5s ease;
+        padding: 10px;
+        direction: rtl;
+      }
+
+      .form-guide-content.active {
+        display: block;
+      }
+
+      .form-guide-step {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: flex-start;
+      }
+
+      .form-guide-step i {
+        color: var(--primary-color);
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+
+      /* استایل‌های جدید برای انیمیشن نمودارها */
+      .chart-animation {
+        animation: chartGrow 1.5s ease-out;
+      }
+
+      @keyframes chartGrow {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* انیمیشن‌های بهبود یافته */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: var(--shadow-light);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 0 20px rgba(27, 154, 170, 0.3);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: var(--shadow-light);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        53%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40%,
+        43% {
+          transform: translateY(-15px);
+        }
+        70% {
+          transform: translateY(-7px);
+        }
+        90% {
+          transform: translateY(-3px);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      /* انیمیشن‌های جدید برای المان‌ها */
+      .btn-primary {
+        animation: pulse 2s infinite;
+      }
+
+      .stat-card:hover {
+        animation: pulse 1s infinite;
+      }
+
+      .question-box:hover {
+        animation: bounce 0.5s;
+      }
+
+      /* افکت‌های جدید برای فرم */
+      .form-group textarea {
+        transition: all 0.3s ease;
+      }
+
+      .form-group textarea:focus {
+        animation: pulse 1s;
+      }
+
+      /* استایل‌های جدید برای راهنمای کپی */
+      .copy-guide {
+        background: var(--gradient-glass);
+        border-radius: var(--border-radius);
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid var(--border-color);
+        animation: slideInUp 0.8s ease;
+      }
+
+      .copy-guide-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+      }
+
+      .copy-guide-header h3 {
+        margin: 0;
+        font-size: 1.4rem;
+      }
+
+      .copy-guide-content {
+        background: var(--water-light);
+        padding: 15px;
+        border-radius: var(--border-radius-sm);
+        margin-bottom: 15px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        direction: ltr;
+        overflow-x: auto;
+        position: relative;
+        display: none; /* مخفی کردن محتوای پرامپت */
+      }
+
+      .copy-btn {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius-sm);
+        padding: 12px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: var(--transition);
+        width: 100%;
+        font-size: 1.1rem;
+        margin-top: 10px;
+      }
+
+      .copy-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-light);
+      }
+
+      /* رسپانسیو */
+      @media (max-width: 1024px) {
+        .questions-analysis {
+          grid-template-columns: 1fr;
+        }
+
+        .question-filter {
+          position: static;
+          max-height: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 15px;
+        }
+
+        .exam-container {
+          padding: 25px;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .charts-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+          grid-template-columns: repeat(2, 1fr);
+          padding: 20px;
+        }
+
+        .questions-visualization {
+          grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        }
+
+        .report-section {
+          padding: 0 20px 20px;
+        }
+
+        .detail-content {
+          grid-template-columns: 1fr;
+        }
+
+        .copy-btn {
+          position: relative;
+          top: 0;
+          left: 0;
+          margin-bottom: 10px;
+        }
+      }
+
+      /* نوتیفیکیشن */
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 350px;
+        font-family: var(--font-family);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .notification-success {
+        background: var(--success-color);
+        color: white;
+      }
+
+      .notification-error {
+        background: var(--danger-color);
+        color: white;
+      }
+
+      .notification-info {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      /* استایل‌های جدید برای تفکیک دروس */
+      .subject-type-section {
+        margin-bottom: 30px;
+      }
+
+      .subject-type-header {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 15px 20px;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .subject-type-content {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        box-shadow: var(--shadow-light);
+      }
+    </style>
+  </head>
+  <body data-theme="ocean">
+    <!-- نوار پیشرفت -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+      <!-- هدر -->
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>آزمون یار - برگه‌یار هوشمند</span>
+          </div>
+
+          <div class="header-controls">
+            <div class="theme-selector">
+              <button
+                class="theme-btn active"
+                data-theme="ocean"
+                title="تم اقیانوس"
+              >
+                <i class="fas fa-water"></i>
+              </button>
+              <button class="theme-btn" data-theme="beach" title="تم ساحل">
+                <i class="fas fa-umbrella-beach"></i>
+              </button>
+              <button
+                class="theme-btn"
+                data-theme="coal-mine"
+                title="تم معدن زغال سنگ"
+              >
+                <i class="fas fa-mountain"></i>
+              </button>
+              <button class="theme-btn" data-theme="galaxy" title="تم کهکشان">
+                <i class="fas fa-gem"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- محتوای اصلی -->
+      <main class="main-content">
+        <!-- صفحه آزمون هوشمند (برگه‌یار) -->
+        <section id="smart-exam" class="page active">
+          <div class="exam-container">
+            <div class="exam-header">
+              <h2><i class="fas fa-file-alt"></i> برگه‌یار هوشمند</h2>
+              <p>لطفاً کدهای تولید شده توسط هوش مصنوعی را وارد کنید</p>
+            </div>
+
+            <!-- راهنمای کپی کردن -->
+            <div class="copy-guide">
+              <div class="copy-guide-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>راهنمای کپی از هوش مصنوعی</h3>
+              </div>
+              <p>
+                برای استفاده از آزمون‌یار، لطفاً از پرامپت زیر در هوش مصنوعی
+                استفاده کنید و نتایج را در کادرهای زیر قرار دهید:
+              </p>
+
+              <div class="copy-guide-content" id="aiPrompt">
+                آزمون‌یار - پردازش پاسخنامه ورژن: 4.2 لطفاً دقیقاً مطابق
+                دستورالعمل زیر عمل کن: --- ۱. پردازش پاسخنامه دانش‌آموز: - وقتی
+                کاربر پرامپت را فرستاد - فقط پاسخ‌های دانش‌آموز را از دایره‌های
+                پر شده استخراج کن - دایره چپ: عدد 1، دایره دوم: عدد 2، دایره
+                سوم: عدد 3، دایره چهارم: عدد 4 - هیچ دایره‌ای پر نشده: عدد 0 -
+                به صورت یک رشته عددی پیوسته برگردان - فقط رشته عددی خام برگردان،
+                بدون هیچ متن اضافی خروجی مورد انتظار: 401203142300... --- ۲.
+                پردازش پاسخنامه تشریحی (کلید آزمون): - وقتی کاربر پاسخنامه
+                تشریحی را فرستاد - پاسخ‌های صحیح را از پاسخنامه استخراج کن -
+                اطلاعات زیر را تشخیص بده: * تعداد سوالات واقعی * نام هر درس *
+                тип درس (فقط "عمومی" یا "تخصصی") * بازه سوالات هر درس * مباحث
+                درسی (برای دروس تخصصی) در نهایت اول کلید و بعد اطلاعات را با یک
+                خط فاصله به کاربر میدی در اطلاعات هم هر چیزی که هست چه درس چه
+                تاریخ با یک خط فاصله ارسال میشود فرمت خروجی دقیق: [پاسخ‌های
+                صحیح]total_questions:[عدد]|subject:[نام
+                درس]|type:[نوع]|start:[شروع]|end:[پایان]|chapters:[مباحث] مثال
+                خروجی:
+                1234213421...total_questions:250|subject:زبان|type:عمومی|start:1|end:30|subject:ریاضی|type:تخصصی|start:31|end:120|chapters:1,2,3
+                --- قوانین سخت‌گیرانه: ✅ فقط داده‌های خام برگردان ✅ هیچ متن
+                اضافی ننویس ✅ از فرمت دقیقاً پیروی کن ✅ فقط اعداد انگلیسی
+                استفاده کن ✅ فیلدها با | جدا شوند ✅ نوع درس فقط "عمومی" یا
+                "تخصصی" ✅ chapters فقط برای دروس تخصصی ✅ طول رشته پاسخ‌ها =
+                تعداد سوالات
+              </div>
+
+              <button class="copy-btn" onclick="copyAIPrompt()">
+                <i class="fas fa-copy"></i> کپی پرامپت هوش مصنوعی
+              </button>
+            </div>
+
+            <!-- راهنمای بالای فرم -->
+            <div class="form-guide">
+              <div class="form-guide-header" onclick="toggleFormGuide()">
+                <h3><i class="fas fa-info-circle"></i> راهنمای استفاده</h3>
+                <i class="fas fa-chevron-down" id="formGuideIcon"></i>
+              </div>
+              <div class="form-guide-content" id="formGuideContent">
+                <div class="form-guide-step">
+                  <i class="fas fa-arrow-left"></i>
+                  <p>
+                    کد پاسخنامه خود را که توسط هوش مصنوعی تولید شده در کادر اول
+                    وارد کنید
+                  </p>
+                </div>
+                <div class="form-guide-step">
+                  <i class="fas fa-arrow-left"></i>
+                  <p>
+                    کد کلید آزمون را در کادر دوم وارد کنید (این کد توسط مرکز
+                    آزمون ارائه می‌شود)
+                  </p>
+                </div>
+                <div class="form-guide-step">
+                  <i class="fas fa-arrow-left"></i>
+                  <p>
+                    روی دکمه "تولید کارنامه" کلیک کنید تا تحلیل کامل آزمون شما
+                    نمایش داده شود
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="exam-form">
+              <div class="form-group">
+                <label for="userAnswersCode">
+                  <i class="fas fa-code"></i>
+                  کد پاسخ‌های شما:
+                </label>
+                <textarea
+                  id="userAnswersCode"
+                  placeholder="کد پاسخ‌های شما را اینجا وارد کنید (مثال: 123451234512345...)"
+                >
+12345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345</textarea
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="examKeyCode">
+                  <i class="fas fa-key"></i>
+                  کد کلید آزمون:
+                </label>
+                <textarea
+                  id="examKeyCode"
+                  placeholder="کد کلید آزمون را اینجا وارد کنید (مثال: 123421342134213...)"
+                >
+123421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421342134213421total_questions:250|subject:فارسی|type:عمومی|start:1|end:30|subject:عربی|type:عمومی|start:31|end:60|subject:دینی|type:عمومی|start:61|end:90|subject:انگلیسی|type:عمومی|start:91|end:120|subject:فنون|type:تخصصی|start:121|end:150|chapters:1|subject:فنون|type:تخصصی|start:151|end:180|chapters:2|subject:فنون|type:تخصصی|start:181|end:210|chapters:3|subject:ریاضی|type:تخصصی|start:211|end:250|chapters:1,2,3</textarea
+                >
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" onclick="processAIExam()">
+                  <i class="fas fa-cogs"></i>
+                  تولید کارنامه
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="navigateTo('smart-exam')"
+                >
+                  <i class="fas fa-arrow-right"></i>
+                  بازگشت
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- صفحه کارنامه -->
+        <section id="report" class="page">
+          <div class="report-container">
+            <div class="report-header">
+              <div class="report-header-content">
+                <h2><i class="fas fa-chart-line"></i> کارنامه تحلیلی</h2>
+                <div class="student-info">
+                  <div class="info-item">
+                    <span class="label">نام دانش‌آموز</span>
+                    <span class="value" id="reportStudentName"
+                      >نام دانش‌آموز</span
+                    >
+                  </div>
+                  <div class="info-item">
+                    <span class="label">پایه و رشته</span>
+                    <span class="value" id="reportGradeField">پایه و رشته</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="label">نام آزمون</span>
+                    <span class="value" id="reportExamName">آزمون هوشمند</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="label">تاریخ آزمون</span>
+                    <span class="value" id="reportExamDate">-</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="label">تاریخ صدور کارنامه</span>
+                    <span class="value" id="reportIssueDate">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-grid">
+              <div class="stat-card correct">
+                <div class="stat-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <span class="number" id="statCorrect">0</span>
+                <span class="label">پاسخ صحیح</span>
+              </div>
+              <div class="stat-card wrong">
+                <div class="stat-icon">
+                  <i class="fas fa-times-circle"></i>
+                </div>
+                <span class="number" id="statWrong">0</span>
+                <span class="label">پاسخ غلط</span>
+              </div>
+              <div class="stat-card empty">
+                <div class="stat-icon">
+                  <i class="far fa-circle"></i>
+                </div>
+                <span class="number" id="statEmpty">0</span>
+                <span class="label">نزده</span>
+              </div>
+              <div class="stat-card score">
+                <div class="stat-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="number" id="statScore">0%</span>
+                <span class="label">درصد اصلی</span>
+              </div>
+              <div class="stat-card potential">
+                <div class="stat-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <span class="number" id="statPotential">0%</span>
+                <span class="label">درصد بالقوه</span>
+              </div>
+            </div>
+
+            <div class="report-section">
+              <h3><i class="fas fa-book-open"></i> تحلیل دروس</h3>
+              <div id="subjectsContainer">
+                <!-- دروس عمومی و تخصصی توسط جاوااسکریپت پر می‌شوند -->
+              </div>
+            </div>
+
+            <div class="charts-grid">
+              <div class="chart-container chart-animation">
+                <h3 class="chart-title">نمودار درصد دروس</h3>
+                <canvas id="barChart" height="250"></canvas>
+              </div>
+              <div class="chart-container chart-animation">
+                <h3 class="chart-title">توزیع پاسخ‌ها</h3>
+                <canvas id="pieChart" height="250"></canvas>
+              </div>
+            </div>
+
+            <div class="report-section">
+              <h3><i class="fas fa-question-circle"></i> تحلیل سوال به سوال</h3>
+
+              <div class="questions-analysis">
+                <div class="question-filter">
+                  <h4>فیلتر سوالات:</h4>
+                  <div class="filter-options">
+                    <button class="filter-btn active" data-filter="all">
+                      همه
+                    </button>
+                    <button class="filter-btn" data-filter="correct">
+                      صحیح
+                    </button>
+                    <button class="filter-btn" data-filter="wrong">غلط</button>
+                    <button class="filter-btn" data-filter="empty">نزده</button>
+                  </div>
+                  <p>برای مشاهده جزئیات هر سوال، روی آن کلیک کنید</p>
+
+                  <div class="question-details" id="questionDetail">
+                    <div class="detail-header">
+                      <h4>جزئیات سوال</h4>
+                      <span>شماره سوال: <span id="detailNumber">-</span></span>
+                    </div>
+                    <div class="detail-content">
+                      <div class="detail-item">
+                        <span class="detail-label">وضعیت:</span>
+                        <span class="detail-value" id="detailStatus">-</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">پاسخ شما:</span>
+                        <span class="detail-value" id="detailUserAnswer"
+                          >-</span
+                        >
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">پاسخ صحیح:</span>
+                        <span class="detail-value" id="detailCorrectAnswer"
+                          >-</span
+                        >
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">درس:</span>
+                        <span class="detail-value" id="detailSubject">-</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="questions-visualization" id="questionsGrid">
+                  <!-- باکس‌ها توسط جاوااسکریپت پر می‌شوند -->
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="generatePDF()">
+                <i class="fas fa-file-pdf"></i> ذخیره PDF
+              </button>
+              <button class="btn btn-secondary" onclick="showPreview()">
+                <i class="fas fa-eye"></i> پیش‌نمایش
+              </button>
+              <button class="btn btn-secondary" onclick="goBackToIndex()">
+                <i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- پیش‌نمایش کارنامه -->
+      <div class="report-preview" id="reportPreview">
+        <div class="preview-content">
+          <div class="close-preview" onclick="closePreview()">
+            <i class="fas fa-times"></i>
+          </div>
+          <div id="previewContent">
+            <!-- محتوای پیش‌نمایش اینجا بارگذاری می‌شود -->
+          </div>
+        </div>
+      </div>
+
+      <!-- افکت‌های پس‌زمینه -->
+      <div class="background-effects">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
+    </div>
+
+    <
+    <script>
+      // اطلاعات کاربر
+      let userProfile = {
+        name: "",
+        grade: "",
+        field: "",
+      };
+
+      // داده‌های آزمون
+      let examData = {
+        userAnswers: [],
+        correctAnswers: [],
+        metadata: [],
+        totalQuestions: 0,
+        subjectMap: {},
+      };
+
+      // مدیریت وضعیت برنامه
+      const AppState = {
+        currentTheme: "ocean",
+        currentPage: "smart-exam",
+      };
+
+      // مقداردهی اولیه برنامه
+      function initApp() {
+        // بارگذاری تم ذخیره شده
+        const savedTheme = localStorage.getItem("appTheme");
+        if (savedTheme) {
+          setTheme(savedTheme);
+        }
+
+        // راه‌اندازی event listeners
+        setupEventListeners();
+
+        // راه‌اندازی اسکرول
+        setupScrollEffects();
+
+        // افزودن افکت‌های انیمیشن جدید
+        enhanceAnimations();
+      }
+
+      // بهبود انیمیشن‌ها
+      function enhanceAnimations() {
+        // افزودن انیمیشن به دکمه‌ها
+        const buttons = document.querySelectorAll(".btn");
+        buttons.forEach((btn) => {
+          btn.addEventListener("mouseenter", () => {
+            btn.style.animation = "pulse 1s infinite";
+          });
+
+          btn.addEventListener("mouseleave", () => {
+            btn.style.animation = "";
+          });
+        });
+
+        // افزودن انیمیشن به کارت‌ها
+        const cards = document.querySelectorAll(".stat-card, .chart-container");
+        cards.forEach((card) => {
+          card.addEventListener("mouseenter", () => {
+            card.style.animation = "pulse 2s infinite";
+          });
+
+          card.addEventListener("mouseleave", () => {
+            card.style.animation = "";
+          });
+        });
+      }
+
+      // راه‌اندازی event listeners
+      function setupEventListeners() {
+        // تغییر تم
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const theme = this.dataset.theme;
+            setTheme(theme);
+          });
+        });
+
+        // فیلتر سوالات
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+            filterQuestions(this.dataset.filter);
+          });
+        });
+
+        // انیمیشن‌های فرم
+        const textareas = document.querySelectorAll("textarea");
+        textareas.forEach((textarea) => {
+          textarea.addEventListener("focus", () => {
+            textarea.parentElement.style.transform = "translateY(-5px)";
+            textarea.parentElement.style.boxShadow = "var(--shadow)";
+          });
+
+          textarea.addEventListener("blur", () => {
+            textarea.parentElement.style.transform = "";
+            textarea.parentElement.style.boxShadow = "";
+          });
+        });
+      }
+
+      // راه‌اندازی اثرات اسکرول
+      function setupScrollEffects() {
+        // به روزرسانی نوار پیشرفت
+        window.addEventListener("scroll", updateProgressBar);
+
+        // افکت پارالاکس برای حباب‌های پس‌زمینه
+        window.addEventListener("scroll", () => {
+          const scrolled = window.pageYOffset;
+          const bubbles = document.querySelectorAll(".bubble");
+
+          bubbles.forEach((bubble, index) => {
+            const speed = 0.5 + index * 0.1;
+            bubble.style.transform = `translateY(${
+              scrolled * speed
+            }px) rotate(${scrolled * 0.05}deg)`;
+          });
+        });
+      }
+
+      // به روزرسانی نوار پیشرفت
+      function updateProgressBar() {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("progressBar").style.width = scrolled + "%";
+      }
+
+      // تغییر تم
+      function setTheme(theme) {
+        // به روزرسانی دکمه‌های فعال تم
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        document
+          .querySelector(`[data-theme="${theme}"]`)
+          .classList.add("active");
+
+        // اعمال تم جدید
+        document.documentElement.setAttribute("data-theme", theme);
+        AppState.currentTheme = theme;
+
+        // ذخیره تم در localStorage
+        localStorage.setItem("appTheme", theme);
+
+        // افزودن انیمیشن تغییر تم
+        document.body.style.animation = "pulse 0.5s";
+        setTimeout(() => {
+          document.body.style.animation = "";
+        }, 500);
+      }
+
+      // پیمایش به صفحه مورد نظر
+      function navigateTo(pageId) {
+        // مخفی کردن صفحه فعلی
+        document.querySelectorAll(".page").forEach((page) => {
+          page.classList.remove("active");
+        });
+
+        // نمایش صفحه جدید
+        document.getElementById(pageId).classList.add("active");
+
+        AppState.currentPage = pageId;
+
+        // اسکرول به بالا
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      // کپی پرامپت هوش مصنوعی
+      function copyAIPrompt() {
+        const promptText = document.getElementById("aiPrompt").textContent;
+
+        navigator.clipboard
+          .writeText(promptText)
+          .then(() => {
+            showNotification("پرامپت با موفقیت کپی شد!", "success");
+          })
+          .catch((err) => {
+            console.error("خطا در کپی کردن پرامپت: ", err);
+            showNotification("خطا در کپی کردن پرامپت", "error");
+          });
+      }
+
+      // تابع پردازش آزمون هوشمند
+      function processAIExam() {
+        const userCode = document
+          .getElementById("userAnswersCode")
+          .value.trim();
+        const examKey = document.getElementById("examKeyCode").value.trim();
+
+        if (!userCode || !examKey) {
+          showNotification("لطفاً هر دو کد را وارد کنید.", "error");
+          return;
+        }
+
+        showNotification("در حال پردازش آزمون...", "info");
+
+        // شبیه‌سازی پردازش
+        simulateProcessing(() => {
+          // استخراج اطلاعات از کدها
+          const { userAnswers, correctAnswers, metadata, totalQuestions } =
+            parseExamCodes(userCode, examKey);
+
+          // ذخیره داده‌های آزمون
+          examData = {
+            userAnswers,
+            correctAnswers,
+            metadata,
+            totalQuestions,
+            subjectMap: createSubjectMap(metadata),
+          };
+
+          // تولید کارنامه
+          generateReport();
+          showNotification("کارنامه با موفقیت تولید شد!", "success");
+          navigateTo("report");
+        });
+      }
+
+      // شبیه‌سازی پردازش با نوار پیشرفت
+      function simulateProcessing(callback) {
+        const progressBar = document.getElementById("progressBar");
+        let width = 0;
+
+        const interval = setInterval(() => {
+          if (width >= 100) {
+            clearInterval(interval);
+            if (callback) callback();
+          } else {
+            width += 5;
+            progressBar.style.width = width + "%";
+          }
+        }, 50);
+      }
+
+      // تابع بهبود یافته برای تجزیه و تحلیل کدهای آزمون
+      function parseExamCodes(userCode, examKeyCode) {
+        let userAnswers = [];
+        let correctAnswers = [];
+        let metadata = [];
+        let totalQuestions = 300; // مقدار پیش‌فرض
+
+        // پردازش کد کاربر
+        userAnswers = userCode.split("").map((char) => {
+          const num = parseInt(char);
+          return isNaN(num) ? 0 : num;
+        });
+
+        // پردازش کد کلید آزمون
+        // ابتدا بررسی می‌کنیم آیا کد حاوی اطلاعات متادیتا است
+        if (
+          examKeyCode.includes("total_questions") ||
+          examKeyCode.includes("subject:")
+        ) {
+          // جدا کردن بخش عددی از بخش متادیتا
+          let keyString = "";
+          let metaString = "";
+
+          // پیدا کردن نقطه شروع متادیتا
+          const metaStartIndex = Math.max(
+            examKeyCode.indexOf("total_questions"),
+            examKeyCode.indexOf("subject:")
+          );
+
+          if (metaStartIndex > 0) {
+            keyString = examKeyCode.substring(0, metaStartIndex);
+            metaString = examKeyCode.substring(metaStartIndex);
+          } else {
+            // اگر متادیتا در ابتدا قرار دارد
+            const numberMatch = examKeyCode.match(/^(\d+)/);
+            if (numberMatch) {
+              keyString = numberMatch[0];
+              metaString = examKeyCode.substring(numberMatch[0].length);
+            } else {
+              metaString = examKeyCode;
+            }
+          }
+
+          // پردازش بخش عددی
+          if (keyString) {
+            correctAnswers = keyString.split("").map((char) => {
+              const num = parseInt(char);
+              return isNaN(num) ? 0 : num;
+            });
+          }
+
+          // پردازش بخش متادیتا
+          if (metaString) {
+            // جدا کردن خطوط متادیتا
+            let lines = [];
+
+            // اگر جداکننده | وجود دارد
+            if (metaString.includes("|")) {
+              lines = metaString.split("|");
+            }
+            // اگر جداکننده وجود ندارد، سعی می‌کنیم به صورت هوشمند جدا کنیم
+            else {
+              lines = smartSplitMetadata(metaString);
+            }
+
+            // پردازش خطوط متادیتا
+            let currentSubject = {};
+
+            for (const line of lines) {
+              if (line.startsWith("total_questions:")) {
+                totalQuestions = parseInt(line.split(":")[1]) || totalQuestions;
+              } else if (line.startsWith("subject:")) {
+                // اگر موضوع قبلی وجود دارد، آن را ذخیره کنید
+                if (Object.keys(currentSubject).length > 0) {
+                  metadata.push(currentSubject);
+                  currentSubject = {};
+                }
+                currentSubject.name = line.split(":")[1];
+              } else if (line.startsWith("type:")) {
+                currentSubject.type = line.split(":")[1];
+              } else if (line.startsWith("start:")) {
+                currentSubject.start = parseInt(line.split(":")[1]);
+              } else if (line.startsWith("end:")) {
+                currentSubject.end = parseInt(line.split(":")[1]);
+              } else if (line.startsWith("chapters:")) {
+                currentSubject.chapters = line.split(":")[1].split(",");
+              }
+            }
+
+            // آخرین موضوع را اضافه کنید
+            if (Object.keys(currentSubject).length > 0) {
+              metadata.push(currentSubject);
+            }
+          }
+        } else {
+          // فرمت ساده (فقط اعداد)
+          correctAnswers = examKeyCode.split("").map((char) => {
+            const num = parseInt(char);
+            return isNaN(num) ? 0 : num;
+          });
+          totalQuestions = Math.min(
+            userAnswers.length,
+            correctAnswers.length,
+            300
+          );
+
+          // ایجاد متادیتای پیشفرض
+          metadata = createDefaultMetadata(totalQuestions);
+        }
+
+        // اطمینان از یکسان بودن طول آرایه‌ها
+        totalQuestions = Math.min(
+          totalQuestions,
+          userAnswers.length,
+          correctAnswers.length
+        );
+
+        return {
+          userAnswers: userAnswers.slice(0, totalQuestions),
+          correctAnswers: correctAnswers.slice(0, totalQuestions),
+          metadata,
+          totalQuestions,
+        };
+      }
+
+      // ایجاد نقشه موضوع برای دسترسی سریع
+      function createSubjectMap(metadata) {
+        const map = {};
+        metadata.forEach((subject) => {
+          for (let i = subject.start; i <= subject.end; i++) {
+            map[i] = subject.name;
+          }
+        });
+        return map;
+      }
+
+      // بارگذاری اطلاعات کاربر از localStorage
+      function loadUserProfile() {
+        const name = localStorage.getItem("studentName") || "نامشخص";
+        const field = localStorage.getItem("studentField") || "";
+        const grade = localStorage.getItem("studentGrade") || "";
+
+        return {
+          name: name,
+          field: field,
+          grade: grade,
+        };
+      }
+
+      // تابع برای نمایش اطلاعات کاربر در کارنامه
+      function displayUserInfoInReport() {
+        const userProfile = loadUserProfile();
+
+        document.getElementById("reportStudentName").textContent =
+          userProfile.name;
+
+        const gradeText = userProfile.grade ? `پایه ${userProfile.grade}` : "";
+        const fieldText =
+          userProfile.field === "riazi"
+            ? "ریاضی"
+            : userProfile.field === "tajrobi"
+            ? "تجربی"
+            : userProfile.field === "ensani"
+            ? "انسانی"
+            : "سایر";
+
+        document.getElementById(
+          "reportGradeField"
+        ).textContent = `${gradeText} - ${fieldText}`;
+      }
+
+      // بارگذاری اطلاعات کاربر از localStorage
+      function loadUserProfile() {
+        const name = localStorage.getItem("studentName") || "نامشخص";
+        const field = localStorage.getItem("studentField") || "";
+        const grade = localStorage.getItem("studentGrade") || "";
+
+        return {
+          name: name,
+          field: field,
+          grade: grade,
+        };
+      }
+
+      // فراخوانی تابع هنگام بارگذاری صفحه گزارش
+      function generateReport() {
+        // نمایش اطلاعات کاربر
+        displayUserInfoInReport();
+
+        // بقیه کدهای موجود...
+      }
+
+      // تولید کارنامه
+      function generateReport() {
+        const { userAnswers, correctAnswers, totalQuestions, metadata } =
+          examData;
+
+        // دریافت اطلاعات کاربر از localStorage
+        const userName = localStorage.getItem("studentName") || "نامشخص";
+        const userField = localStorage.getItem("studentField") || "";
+        const userGrade = localStorage.getItem("studentGrade") || "";
+
+        // تنظیم اطلاعات کارنامه
+        document.getElementById("reportStudentName").textContent = userName;
+
+        const gradeText = userGrade ? `پایه ${userGrade}` : "";
+        const fieldText =
+          userField === "riazi"
+            ? "ریاضی"
+            : userField === "tajrobi"
+            ? "تجربی"
+            : userField === "ensani"
+            ? "انسانی"
+            : "سایر";
+        document.getElementById(
+          "reportGradeField"
+        ).textContent = `${gradeText} - ${fieldText}`;
+
+        // تاریخ امروز برای تاریخ صدور کارنامه
+        const today = new Date();
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        document.getElementById("reportIssueDate").textContent =
+          today.toLocaleDateString("fa-IR", options);
+
+        // تاریخ آزمون (به صورت تصادفی برای نمونه)
+        const examDate = new Date();
+        examDate.setDate(examDate.getDate() - Math.floor(Math.random() * 30));
+        document.getElementById("reportExamDate").textContent =
+          examDate.toLocaleDateString("fa-IR", options);
+
+        // محاسبه نتایج کلی
+        let correct = 0,
+          wrong = 0,
+          empty = 0;
+
+        for (let i = 0; i < totalQuestions; i++) {
+          if (userAnswers[i] === 0) empty++;
+          else if (userAnswers[i] === correctAnswers[i]) correct++;
+          else wrong++;
+        }
+
+        // محاسبه درصد اصلی
+        const mainPercentage = (
+          ((correct * 3 - wrong) / (totalQuestions * 3)) *
+          100
+        ).toFixed(1);
+
+        // محاسبه درصد بالقوه (اگر پاسخ غلط نمی‌دادیم)
+        const potentialPercentage = (
+          ((correct * 3) / (totalQuestions * 3)) *
+          100
+        ).toFixed(1);
+
+        document.getElementById("statCorrect").textContent = correct;
+        document.getElementById("statWrong").textContent = wrong;
+        document.getElementById("statEmpty").textContent = empty;
+        document.getElementById("statScore").textContent = mainPercentage + "%";
+        document.getElementById("statPotential").textContent =
+          potentialPercentage + "%";
+
+        // ایجاد جدول دروس با تفکیک نوع
+        const subjectsContainer = document.getElementById("subjectsContainer");
+        subjectsContainer.innerHTML = "";
+
+        // گروه‌بندی دروس بر اساس نوع
+        const generalSubjects = metadata.filter(
+          (subject) => subject.type === "عمومی"
+        );
+        const specializedSubjects = metadata.filter(
+          (subject) => subject.type === "تخصصی"
+        );
+
+        // نمایش دروس عمومی
+        if (generalSubjects.length > 0) {
+          const generalSection = document.createElement("div");
+          generalSection.className = "subject-type-section";
+          generalSection.innerHTML = `
+                <div class="subject-type-header">
+                    <i class="fas fa-book"></i>
+                    دروس عمومی
+                </div>
+                <div class="subject-type-content">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>درس</th>
+                                <th>تعداد سوال</th>
+                                <th>صحیح</th>
+                                <th>غلط</th>
+                                <th>نزده</th>
+                                <th>درصد اصلی</th>
+                                <th>درصد بالقوه</th>
+                            </tr>
+                        </thead>
+                        <tbody id="generalSubjectsTable">
+                        </tbody>
+                    </table>
+                </div>
+            `;
+          subjectsContainer.appendChild(generalSection);
+
+          const generalTable = document.getElementById("generalSubjectsTable");
+          generalSubjects.forEach((subject) => {
+            const result = calculateSubjectResult(subject);
+            const mainPercent = (
+              ((result.correct * 3 - result.wrong) / (result.total * 3)) *
+              100
+            ).toFixed(1);
+            const potentialPercent = (
+              ((result.correct * 3) / (result.total * 3)) *
+              100
+            ).toFixed(1);
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                    <td>${subject.name}</td>
+                    <td>${result.total}</td>
+                    <td>${result.correct}</td>
+                    <td>${result.wrong}</td>
+                    <td>${result.empty}</td>
+                    <td>${mainPercent}%</td>
+                    <td>${potentialPercent}%</td>
+                `;
+            generalTable.appendChild(row);
+          });
+        }
+
+        // نمایش دروس تخصصی
+        if (specializedSubjects.length > 0) {
+          const specializedSection = document.createElement("div");
+          specializedSection.className = "subject-type-section";
+          specializedSection.innerHTML = `
+                <div class="subject-type-header">
+                    <i class="fas fa-calculator"></i>
+                    دروس تخصصی
+                </div>
+                <div class="subject-type-content">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>درس</th>
+                                <th>مباحث</th>
+                                <th>تعداد سوال</th>
+                                <th>صحیح</th>
+                                <th>غلط</th>
+                                <th>نزده</th>
+                                <th>درصد اصلی</th>
+                                <th>درصد بالقوه</th>
+                            </tr>
+                        </thead>
+                        <tbody id="specializedSubjectsTable">
+                        </tbody>
+                    </table>
+                </div>
+            `;
+          subjectsContainer.appendChild(specializedSection);
+
+          const specializedTable = document.getElementById(
+            "specializedSubjectsTable"
+          );
+          specializedSubjects.forEach((subject) => {
+            const result = calculateSubjectResult(subject);
+            const mainPercent = (
+              ((result.correct * 3 - result.wrong) / (result.total * 3)) *
+              100
+            ).toFixed(1);
+            const potentialPercent = (
+              ((result.correct * 3) / (result.total * 3)) *
+              100
+            ).toFixed(1);
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                    <td>${subject.name}</td>
+                    <td>${
+                      subject.chapters ? subject.chapters.join(", ") : "-"
+                    }</td>
+                    <td>${result.total}</td>
+                    <td>${result.correct}</td>
+                    <td>${result.wrong}</td>
+                    <td>${result.empty}</td>
+                    <td>${mainPercent}%</td>
+                    <td>${potentialPercent}%</td>
+                `;
+            specializedTable.appendChild(row);
+          });
+        }
+
+        // ایجاد نمودار میله ای انباشته
+        const barCtx = document.getElementById("barChart").getContext("2d");
+        if (window.barChartInstance) {
+          window.barChartInstance.destroy();
+        }
+
+        const subjectNames = metadata.map(
+          (s) => s.name + (s.chapters ? " (" + s.chapters.join(",") + ")" : "")
+        );
+        const mainPercentages = metadata.map((s) => {
+          const result = calculateSubjectResult(s);
+          return (
+            ((result.correct * 3 - result.wrong) / (result.total * 3)) *
+            100
+          ).toFixed(1);
+        });
+
+        const potentialPercentages = metadata.map((s) => {
+          const result = calculateSubjectResult(s);
+          return (((result.correct * 3) / (result.total * 3)) * 100).toFixed(1);
+        });
+
+        window.barChartInstance = new Chart(barCtx, {
+          type: "bar",
+          data: {
+            labels: subjectNames,
+            datasets: [
+              {
+                label: "درصد اصلی",
+                data: mainPercentages,
+                backgroundColor: "#006994",
+                animation: {
+                  duration: 2000,
+                  easing: "easeOutQuart",
+                },
+              },
+              {
+                label: "درصد بالقوه",
+                data: potentialPercentages,
+                backgroundColor: "#8A2BE2",
+                animation: {
+                  duration: 2000,
+                  easing: "easeOutQuart",
+                  delay: 500,
+                },
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                title: {
+                  display: true,
+                  text: "درصد",
+                },
+              },
+            },
+            animation: {
+              duration: 2000,
+              easing: "easeOutQuart",
+            },
+          },
+        });
+
+        // ایجاد نمودار دایره ای
+        const pieCtx = document.getElementById("pieChart").getContext("2d");
+        if (window.pieChartInstance) {
+          window.pieChartInstance.destroy();
+        }
+
+        window.pieChartInstance = new Chart(pieCtx, {
+          type: "pie",
+          data: {
+            labels: ["صحیح", "غلط", "نزده"],
+            datasets: [
+              {
+                data: [correct, wrong, empty],
+                backgroundColor: ["#4CAF50", "#F44336", "#FF9800"],
+                hoverOffset: 12,
+                animation: {
+                  animateScale: true,
+                  duration: 2000,
+                  easing: "easeOutQuart",
+                },
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+            animation: {
+              animateScale: true,
+              duration: 2000,
+              easing: "easeOutQuart",
+            },
+          },
+        });
+
+        // تحلیل سوال به سوال
+        renderQuestionBoxes();
+      }
+
+      // محاسبه نتایج یک درس
+      function calculateSubjectResult(subject) {
+        const { userAnswers, correctAnswers } = examData;
+        let correct = 0,
+          wrong = 0,
+          empty = 0;
+
+        for (let i = subject.start - 1; i < subject.end; i++) {
+          if (i >= userAnswers.length) break;
+
+          if (userAnswers[i] === 0) empty++;
+          else if (userAnswers[i] === correctAnswers[i]) correct++;
+          else wrong++;
+        }
+
+        const total = correct + wrong + empty;
+
+        return { correct, wrong, empty, total };
+      }
+
+      // رندر باکس‌های سوالات
+      function renderQuestionBoxes() {
+        const { userAnswers, correctAnswers, totalQuestions, subjectMap } =
+          examData;
+        const grid = document.getElementById("questionsGrid");
+        grid.innerHTML = "";
+
+        for (let i = 1; i <= totalQuestions; i++) {
+          const index = i - 1;
+          let status, userAnswer, correctAnswer, icon;
+
+          if (userAnswers[index] === 0) {
+            status = "empty";
+            userAnswer = "-";
+            correctAnswer = correctAnswers[index];
+            icon = '<i class="far fa-circle status-icon"></i>';
+          } else if (userAnswers[index] === correctAnswers[index]) {
+            status = "correct";
+            userAnswer = userAnswers[index];
+            correctAnswer = correctAnswers[index];
+            icon = '<i class="fas fa-check-circle status-icon"></i>';
+          } else {
+            status = "wrong";
+            userAnswer = userAnswers[index];
+            correctAnswer = correctAnswers[index];
+            icon = '<i class="fas fa-times-circle status-icon"></i>';
+          }
+
+          const subject = subjectMap[i] || "نامشخص";
+
+          const box = document.createElement("div");
+          box.className = `question-box ${status}`;
+          box.dataset.index = index;
+          box.dataset.status = status;
+          box.dataset.subject = subject;
+          box.innerHTML = `
+                ${icon}
+                <div class="question-number">${i}</div>
+                <div class="question-answer">${userAnswer}</div>
+                <div class="question-key">✓${correctAnswer}</div>
+            `;
+
+          // اضافه کردن event listener برای نمایش جزئیات
+          box.addEventListener("click", function () {
+            showQuestionDetails(this.dataset.index);
+          });
+
+          grid.appendChild(box);
+        }
+      }
+
+      // نمایش جزئیات سوال
+      function showQuestionDetails(index) {
+        const { userAnswers, correctAnswers, subjectMap } = examData;
+        const questionNum = parseInt(index) + 1;
+        const userAnswer = userAnswers[index];
+        const correctAnswer = correctAnswers[index];
+        const subject = subjectMap[questionNum] || "نامشخص";
+
+        let status, statusText;
+        if (userAnswer === 0) {
+          status = "empty";
+          statusText = "نزده";
+        } else if (userAnswer === correctAnswer) {
+          status = "correct";
+          statusText = "صحیح";
+        } else {
+          status = "wrong";
+          statusText = "غلط";
+        }
+
+        document.getElementById("detailNumber").textContent = questionNum;
+        document.getElementById("detailStatus").textContent = statusText;
+        document.getElementById("detailStatus").className =
+          "detail-value " + status;
+        document.getElementById("detailUserAnswer").textContent =
+          userAnswer === 0 ? "-" : userAnswer;
+        document.getElementById("detailCorrectAnswer").textContent =
+          correctAnswer;
+        document.getElementById("detailSubject").textContent = subject;
+
+        // highlight سوال انتخاب شده
+        document.querySelectorAll(".question-box").forEach((box) => {
+          box.classList.remove("selected");
+        });
+        document
+          .querySelector(`.question-box[data-index="${index}"]`)
+          .classList.add("selected");
+      }
+
+      // فیلتر کردن سوالات
+      function filterQuestions(filter) {
+        document.querySelectorAll(".question-box").forEach((box) => {
+          if (filter === "all" || box.dataset.status === filter) {
+            box.style.display = "flex";
+          } else {
+            box.style.display = "none";
+          }
+        });
+      }
+
+      // نمایش پیش‌نمایش کارنامه
+      function showPreview() {
+        const previewContent = document
+          .getElementById("report")
+          .cloneNode(true);
+        document.getElementById("previewContent").innerHTML = "";
+        document.getElementById("previewContent").appendChild(previewContent);
+        document.getElementById("reportPreview").classList.add("active");
+      }
+
+      // بستن پیش‌نمایش
+      function closePreview() {
+        document.getElementById("reportPreview").classList.remove("active");
+      }
+
+      // تابع تولید PDF از کارنامه
+      function generatePDF() {
+        showNotification("در حال تولید PDF...", "info");
+
+        // مخفی کردن دکمه‌ها در خروجی PDF
+        const originalActions = document.querySelector(".form-actions");
+        originalActions.style.display = "none";
+
+        // استفاده از html2canvas و jsPDF برای ایجاد PDF
+        html2canvas(document.getElementById("report"), {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+        }).then((canvas) => {
+          // بازگرداندن دکمه‌ها
+          originalActions.style.display = "flex";
+
+          const imgData = canvas.toDataURL("image/png", 1.0);
+          const { jsPDF } = window.jspdf;
+
+          // ایجاد PDF در اندازه A3 و حالت landscape
+          const pdf = new jsPDF("landscape", "mm", "a3");
+
+          const imgWidth = 420; // A3 width in mm (landscape)
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+          // ایجاد نام فایل با تاریخ و ساعت
+          const now = new Date();
+          const dateTime = `${now.getFullYear()}${(now.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}${now.getDate().toString().padStart(2, "0")}_${now
+            .getHours()
+            .toString()
+            .padStart(2, "0")}${now.getMinutes().toString().padStart(2, "0")}`;
+          const fileName = `کارنامه_آزمون_${dateTime}.pdf`;
+
+          // ذخیره PDF
+          pdf.save(fileName);
+          showNotification("PDF با موفقیت ذخیره شد", "success");
+        });
+      }
+
+      // نمایش/مخفی کردن راهنمای فرم
+      function toggleFormGuide() {
+        const guideContent = document.getElementById("formGuideContent");
+        const guideIcon = document.getElementById("formGuideIcon");
+
+        if (
+          guideContent.style.display === "none" ||
+          !guideContent.style.display
+        ) {
+          guideContent.style.display = "block";
+          guideIcon.className = "fas fa-chevron-up";
+        } else {
+          guideContent.style.display = "none";
+          guideIcon.className = "fas fa-chevron-down";
+        }
+      }
+
+      // نمایش نوتیفیکیشن
+      function showNotification(message, type = "info") {
+        // ایجاد عنصر نوتیفیکیشن
+        const notification = document.createElement("div");
+        notification.className = `notification notification-${type}`;
+
+        let icon = "info-circle";
+        if (type === "success") icon = "check-circle";
+        if (type === "error") icon = "exclamation-circle";
+
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+
+        // استایل نوتیفیکیشن
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${
+              type === "success"
+                ? "var(--success-color)"
+                : type === "error"
+                ? "var(--danger-color)"
+                : "var(--primary-color)"
+            };
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+            font-family: var(--font-family);
+        `;
+
+        document.body.appendChild(notification);
+
+        // نمایش نوتیفیکیشن
+        setTimeout(() => {
+          notification.style.transform = "translateX(0)";
+        }, 100);
+
+        // مخفی کردن نوتیفیکیشن پس از 5 ثانیه
+        setTimeout(() => {
+          notification.style.transform = "translateX(100%)";
+          setTimeout(() => {
+            if (document.body.contains(notification)) {
+              document.body.removeChild(notification);
+            }
+          }, 300);
+        }, 5000);
+      }
+
+      // تابع کمکی برای تقسیم متادیتا
+      function smartSplitMetadata(metaString) {
+        const lines = [];
+        let currentLine = "";
+
+        for (let i = 0; i < metaString.length; i++) {
+          const char = metaString[i];
+          if (
+            char === ":" &&
+            currentLine.includes("subject") &&
+            !currentLine.includes(":")
+          ) {
+            // این شروع یک فیلد جدید است
+            if (currentLine) {
+              lines.push(currentLine);
+            }
+            currentLine = char;
+          } else if (char === "|") {
+            // جداکننده فیلدها
+            if (currentLine) {
+              lines.push(currentLine);
+            }
+            currentLine = "";
+          } else {
+            currentLine += char;
+          }
+        }
+
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+
+        return lines;
+      }
+
+      // ایجاد متادیتای پیش‌فرض
+      function createDefaultMetadata(totalQuestions) {
+        return [
+          {
+            name: "همه دروس",
+            type: "عمومی",
+            start: 1,
+            end: totalQuestions,
+          },
+        ];
+      }
+
+      // راه‌اندازی برنامه هنگام بارگذاری صفحه
+      document.addEventListener("DOMContentLoaded", initApp);
+
+      // تابع بازگشت به صفحه اصلی
+      function goBackToIndex() {
+        window.location.href = "index.html";
+      }
+
+      // تابع کمکی برای تقسیم متادیتا
+      function smartSplitMetadata(metaString) {
+        const lines = [];
+        let currentLine = "";
+
+        for (let i = 0; i < metaString.length; i++) {
+          const char = metaString[i];
+          if (
+            char === ":" &&
+            currentLine.includes("subject") &&
+            !currentLine.includes(":")
+          ) {
+            // این شروع یک فیلد جدید است
+            if (currentLine) {
+              lines.push(currentLine);
+            }
+            currentLine = char;
+          } else if (char === "|") {
+            // جداکننده فیلدها
+            if (currentLine) {
+              lines.push(currentLine);
+            }
+            currentLine = "";
+          } else {
+            currentLine += char;
+          }
+        }
+
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+
+        return lines;
+      }
+    </script>
+  </body>
+</html>
