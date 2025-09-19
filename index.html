@@ -3749,67 +3749,51 @@
         return themes[theme] || "ناشناخته";
       }
 
-      // محاسبه درصد با فرمول صحیح کنکوری
-      function calculatePercentage() {
-        const correct =
-          parseInt(document.getElementById("correctAnswers").value) || 0;
-        const wrong =
-          parseInt(document.getElementById("wrongAnswers").value) || 0;
-        const empty =
-          parseInt(document.getElementById("emptyAnswers").value) || 0;
-        const total =
-          parseInt(document.getElementById("totalQuestions").value) || 50;
+      // 
+function calculatePercentage() {
+    const correct = parseInt(document.getElementById("correctAnswers").value) || 0;
+    const wrong = parseInt(document.getElementById("wrongAnswers").value) || 0;
+    const empty = parseInt(document.getElementById("emptyAnswers").value) || 0;
+    const total = correct + wrong + empty;
 
-        // اعتبارسنجی
-        if (correct + wrong + empty > total) {
-          showNotification(
-            "مجموع پاسخ‌ها نمی‌تواند بیشتر از تعداد کل سوالات باشد!",
-            "error"
-          );
-          return;
-        }
+    // اعتبارسنجی
+    if (total === 0) {
+        showNotification("لطفاً حداقل یک سوال را پاسخ داده باشید!", "error");
+        return;
+    }
 
-        if (total === 0) {
-          document.getElementById("percentageValue").textContent = "0%";
-          document.getElementById("potentialPercentageValue").textContent =
-            "0%";
-          return;
-        }
+    // فرمول کنکوری: هر 3 پاسخ غلط، یک پاسخ صحیح را خنثی می‌کند
+    const netCorrect = Math.max(0, correct - (wrong / 3));
+    const percentage = (netCorrect / total) * 100;
+    const roundedPercentage = Math.max(0, Math.min(100, percentage)).toFixed(1);
 
-        // محاسبه درصد اصلی با نمره منفی (فرمول کنکوری)
-        const netCorrect = correct - wrong / 3; // هر 3 غلط یک صحیح کم می‌کند
-        const percentage = (netCorrect / total) * 100;
-        const roundedPercentage = Math.max(
-          0,
-          Math.min(100, percentage)
-        ).toFixed(1);
+    // محاسبه درصد بالقوه (بدون نمره منفی)
+    const potentialPercentage = (correct / total) * 100;
+    const roundedPotentialPercentage = Math.max(0, Math.min(100, potentialPercentage)).toFixed(1);
 
-        // محاسبه درصد بالقوه (بدون نمره منفی)
-        const potentialPercentage = (correct / total) * 100;
-        const roundedPotentialPercentage = Math.max(
-          0,
-          Math.min(100, potentialPercentage)
-        ).toFixed(1);
+    // اعمال انیمیشن به مقادیر
+    animatePercentage("percentageValue", 0, roundedPercentage, 1500, "%");
+    animatePercentage("potentialPercentageValue", 0, roundedPotentialPercentage, 1500, "%");
 
-        // اعمال انیمیشن به مقادیر
-        animatePercentage("percentageValue", 0, roundedPercentage, 1500, "%");
-        animatePercentage(
-          "potentialPercentageValue",
-          0,
-          roundedPotentialPercentage,
-          1500,
-          "%"
-        );
-
-        // اعمال افکت به کارت‌های نتیجه
-        const resultBoxes = document.querySelectorAll(".result-box");
-        resultBoxes.forEach((box) => {
-          box.classList.add("percentage-animation");
-          setTimeout(() => {
+    // اعمال افکت به کارت‌های نتیجه
+    const resultBoxes = document.querySelectorAll(".result-box");
+    resultBoxes.forEach((box) => {
+        box.classList.add("percentage-animation");
+        setTimeout(() => {
             box.classList.remove("percentage-animation");
-          }, 800);
-        });
-      }
+        }, 800);
+    });
+}
+
+      // مقداردهی اولیه فیلدهای ماشین حساب هنگام بارگذاری صفحه
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("correctAnswers").value = "0";
+    document.getElementById("wrongAnswers").value = "0";
+    document.getElementById("emptyAnswers").value = "0";
+    document.getElementById("totalQuestionsDisplay").textContent = "0";
+    document.getElementById("percentageValue").textContent = "0%";
+    document.getElementById("potentialPercentageValue").textContent = "0%";
+});
 
       // انیمیشن پیشرفته برای نمایش درصد
       function animatePercentage(id, start, end, duration, suffix = "") {
@@ -4207,7 +4191,7 @@
         };
       }
 
-      // محاسبه درصد با فرمول صحیح کنکوری
+      // 
       function calculatePercentage() {
         const correct =
           parseInt(document.getElementById("correctAnswers").value) || 0;
